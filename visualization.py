@@ -6,7 +6,7 @@ import networkx as nx
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
 PADDING = 50
-FPS = 0.5
+FPS = 1
 
 COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
