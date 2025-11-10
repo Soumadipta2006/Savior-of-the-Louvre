@@ -4,12 +4,12 @@ The core of the simulation is a from-scratch implementation of Dijkstra's Algori
 
 The entire simulation is logged to `simulation.json` and can be replayed using a custom Pygame visualizer.
 
-## 🎥 Visualization
+## Visualization
 
 The `visualization.py` script reads the simulation log and generates a smooth, animated replay of the chase.
 
 
-## ✨ Key Features
+## Key Features
 
 * Graph-Based City: The city map is loaded from `graph_with_metadata.json` as a directed, weighted graph.
 * Dijkstra's from Scratch: Implements Dijkstra's algorithm (using a `heapq` priority queue) for all pathfinding.
@@ -23,9 +23,9 @@ The `visualization.py` script reads the simulation log and generates a smooth, a
 * JSON Logging: The entire step-by-step history of the simulation, including car positions, progress, and active events, is saved to `simulation.json`.
 * Pygame Visualization: A separate visualizer (`visualization.py`) parses the JSON log to provide a smooth, animated replay with status readouts, car-shaped pointers, and path tracing.
 
-## 📦 Dependencies
+## Dependencies
 
-The core simulation (`code.py`) only requires standard Python libraries.
+The core simulation (`code.ipynb`) requires `networkx` apart from standard Python libraries.
 
 The visualization (`visualization.py`) requires `pygame` and `networkx`. You can install them via pip:
 
