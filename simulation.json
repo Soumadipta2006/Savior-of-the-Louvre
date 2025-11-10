@@ -1,0 +1,377 @@
+[
+    {
+        "step": 0,
+        "carA": {
+            "pos": 0,
+            "edge_from": 0,
+            "edge_to": 1,
+            "progress": 1,
+            "Dijkstra_path": [
+                0,
+                1,
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 49,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": []
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": []
+    },
+    {
+        "step": 1,
+        "carA": {
+            "pos": 0,
+            "edge_from": 0,
+            "edge_to": 1,
+            "progress": 2,
+            "Dijkstra_path": [
+                0,
+                1,
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 49,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": []
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": []
+    },
+    {
+        "step": 2,
+        "carA": {
+            "pos": 0,
+            "edge_from": 0,
+            "edge_to": 1,
+            "progress": 3,
+            "Dijkstra_path": [
+                0,
+                1,
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 49,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": []
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": []
+    },
+    {
+        "step": 3,
+        "carA": {
+            "pos": 1,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": [
+                1,
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 49,
+            "edge_from": 49,
+            "edge_to": 8,
+            "progress": 1.5,
+            "Dijkstra_path": [
+                49,
+                8,
+                1
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": [
+            "Traffic jam on 7-->22"
+        ]
+    },
+    {
+        "step": 4,
+        "carA": {
+            "pos": 1,
+            "edge_from": 1,
+            "edge_to": 40,
+            "progress": 1,
+            "Dijkstra_path": [
+                1,
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 49,
+            "edge_from": 49,
+            "edge_to": 8,
+            "progress": 3.0,
+            "Dijkstra_path": [
+                49,
+                8,
+                1
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": [
+            "One-way created. Removed edge 1-->19"
+        ]
+    },
+    {
+        "step": 5,
+        "carA": {
+            "pos": 1,
+            "edge_from": 1,
+            "edge_to": 40,
+            "progress": 2,
+            "Dijkstra_path": [
+                1,
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 49,
+            "edge_from": 49,
+            "edge_to": 8,
+            "progress": 4.5,
+            "Dijkstra_path": [
+                49,
+                8,
+                1
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": [
+            "Traffic jam on 44-->6"
+        ]
+    },
+    {
+        "step": 6,
+        "carA": {
+            "pos": 40,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": [
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 49,
+            "edge_from": 49,
+            "edge_to": 8,
+            "progress": 6.0,
+            "Dijkstra_path": [
+                49,
+                8,
+                1
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": [
+            "One-way created. Removed edge 7-->40"
+        ]
+    },
+    {
+        "step": 7,
+        "carA": {
+            "pos": 40,
+            "edge_from": 40,
+            "edge_to": 38,
+            "progress": 1,
+            "Dijkstra_path": [
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 8,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": [
+                8,
+                1
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": []
+    },
+    {
+        "step": 8,
+        "carA": {
+            "pos": 40,
+            "edge_from": 40,
+            "edge_to": 38,
+            "progress": 2,
+            "Dijkstra_path": [
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 8,
+            "edge_from": 8,
+            "edge_to": 14,
+            "progress": 1.5,
+            "Dijkstra_path": [
+                8,
+                14,
+                48,
+                38
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": [
+            "Blockage on 19-->32"
+        ]
+    },
+    {
+        "step": 9,
+        "carA": {
+            "pos": 40,
+            "edge_from": 40,
+            "edge_to": 38,
+            "progress": 3,
+            "Dijkstra_path": [
+                40,
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 8,
+            "edge_from": 8,
+            "edge_to": 14,
+            "progress": 3.0,
+            "Dijkstra_path": [
+                8,
+                14,
+                48,
+                38
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": [
+            "One-way removed, restored 1-->19"
+        ]
+    },
+    {
+        "step": 10,
+        "carA": {
+            "pos": 38,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": [
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 8,
+            "edge_from": 8,
+            "edge_to": 14,
+            "progress": 4.5,
+            "Dijkstra_path": [
+                8,
+                14,
+                48,
+                38
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": []
+    },
+    {
+        "step": 11,
+        "carA": {
+            "pos": 38,
+            "edge_from": 38,
+            "edge_to": 48,
+            "progress": 1,
+            "Dijkstra_path": [
+                38,
+                48
+            ]
+        },
+        "carB": {
+            "pos": 14,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": [
+                14,
+                48,
+                38
+            ]
+        },
+        "caught": false,
+        "reached": false,
+        "log_events": [
+            "Traffic jam on 36-->11",
+            "One-way removed, restored 7-->40",
+            "Blockage removed on 19-->32"
+        ]
+    },
+    {
+        "step": 12,
+        "carA": {
+            "pos": 48,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": [
+                48
+            ]
+        },
+        "carB": {
+            "pos": 48,
+            "edge_from": null,
+            "edge_to": null,
+            "progress": 0,
+            "Dijkstra_path": [
+                48
+            ]
+        },
+        "caught": true,
+        "reached": true,
+        "log_events": [
+            "Traffic jam on 45-->32"
+        ]
+    }
+]
