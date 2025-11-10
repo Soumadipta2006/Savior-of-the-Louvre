@@ -3,8 +3,9 @@ import json
 import math
 import networkx as nx 
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 800
+
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 900
 PADDING = 50
 FPS = 1
 
@@ -12,13 +13,18 @@ COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
 COLOR_GREY = (211, 211, 211)
 COLOR_EXIT = (0, 200, 0)
-# Car Colors
 COLOR_RED = (255, 0, 0)
 COLOR_BLUE = (0, 0, 255)
-COLOR_RED_LIGHT = (255, 150, 150)  
-COLOR_BLUE_LIGHT = (150, 150, 255) 
+COLOR_RED_LIGHT = (255, 150, 150)
+COLOR_BLUE_LIGHT = (150, 150, 255)
+COLOR_JAM = (255, 165, 0)      # Orange
+COLOR_BLOCKAGE = (54, 69, 79)   # Crimson Red
+COLOR_ONEWAY = (138, 43, 226)  # BlueViolet (Purple)
+
+
 
 def load_graph(filename="graph_with_metadata.json"):
+    # (Your full load_graph function code goes here...)
     with open(filename, "r") as f:
         data = json.load(f)
     adjacency_raw = data["adjacency"]
@@ -32,6 +38,7 @@ def load_graph(filename="graph_with_metadata.json"):
         for nbr, weight in neighbors:
             G_loaded.add_edge(node, nbr, weight=weight)
     return G_loaded, adjacency, positions, metadata, exit_nodes
+
 
 def scale(val, min_val, max_val, min_out, max_out):
     if max_val == min_val: return min_out
@@ -99,7 +106,6 @@ def get_car_pos_and_angle(car_state, scaled_pos, graph):
         return scaled_pos[car_state['pos']], None
 
 def draw_car(surface, pos, angle, color):
-    """Draws a rotated "car" (a triangle)."""
     base_shape = [(12, 0), (-6, -6), (-6, 6)]
     rad = math.radians(angle)
     rotated_shape = []
@@ -109,12 +115,26 @@ def draw_car(surface, pos, angle, color):
         final_x = new_x + pos[0]
         final_y = new_y + pos[1]
         rotated_shape.append((final_x, final_y))
-    
     pygame.draw.polygon(surface, color, rotated_shape)
 
 
+def parse_edge_from_log(log_str):
+    """
+    Parses a log string like "Traffic jam on 18-->25"
+    and returns the edge tuple (18, 25).
+    Returns None if it can't be parsed.
+    """
+    try:
+        parts = log_str.split(" ")
+        edge_str = parts[-1]
+        u_str, v_str = edge_str.split("-->")
+        return (int(u_str), int(v_str))
+    except Exception:
+        return None
+
 
 def main():
+    # --- Load all data ---
     try:
         G_loaded, adjacency, positions_raw, metadata, exit_nodes = load_graph()
         with open("simulation.json", "r") as f:
@@ -128,6 +148,37 @@ def main():
     CAR_A_START_NODE = 0 
     CAR_B_START_NODE = 49
 
+    # --- NEW: Pre-process history to build persistent event state ---
+    print("Pre-processing simulation log...")
+    current_active_events = {} 
+    
+    for step_data in history:
+        log_events = step_data['log_events']
+        for event_str in log_events:
+            edge = parse_edge_from_log(event_str)
+            if not edge:
+                continue
+
+            # Add new events
+            if "Traffic jam on" in event_str:
+                current_active_events[edge] = "Traffic Jam"
+            elif "Blockage on" in event_str:
+                current_active_events[edge] = "Blockage"
+            elif "One-way created. Removed edge" in event_str:
+                current_active_events[edge] = "One-way"
+            
+            # --- THIS IS THE FIX ---
+            # Generalized the check for "removal" messages
+            elif "removed" in event_str or "cleared" in event_str or "restored" in event_str:
+                if edge in current_active_events:
+                    del current_active_events[edge]
+            # --- END FIX ---
+
+        # Save the *current state* of our memory to this step
+        step_data['active_events_list'] = list(current_active_events.items())
+    print("Pre-processing complete.")
+    
+    # --- Initialize Pygame ---
     pygame.init()
     pygame.font.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -135,7 +186,7 @@ def main():
     clock = pygame.time.Clock()
     font = pygame.font.SysFont("Arial", 10, bold=True)
     ui_font = pygame.font.SysFont("Arial", 20, bold=True)
-    status_font = pygame.font.SysFont("Arial", 16)
+    status_font = pygame.font.SysFont("Arial", 16) 
     
     positions = scale_positions(positions_raw, SCREEN_WIDTH, SCREEN_HEIGHT, PADDING)
 
@@ -149,6 +200,7 @@ def main():
     last_carA_angle = 0
     last_carB_angle = 0
 
+    # --- Main Loop ---
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -167,35 +219,35 @@ def main():
             clock.tick(FPS)
             continue
 
+        
         if current_step >= len(history):
             paused = True
             current_step = len(history) - 1
         
         step_data = history[current_step]
+        
 
         carA_state = step_data['carA']
         carB_state = step_data['carB']
-        
         carA_xy, carA_angle = get_car_pos_and_angle(carA_state, positions, G_loaded)
         carB_xy, carB_angle = (positions[CAR_B_START_NODE], 0) 
-        
         if step_data['step'] >= DELAY_B:
             carB_xy, carB_angle = get_car_pos_and_angle(carB_state, positions, G_loaded)
-
         if carA_angle is not None: last_carA_angle = carA_angle
         else: carA_angle = last_carA_angle
-            
         if carB_angle is not None: last_carB_angle = carB_angle
         else: carB_angle = last_carB_angle
-
         carA_in_transit = carA_state['edge_from'] is not None
         carB_in_transit = carB_state['edge_from'] is not None
 
+        
         if path_a_points[-1] != carA_xy:
             path_a_points.append(carA_xy)
         if step_data['step'] >= DELAY_B and path_b_points[-1] != carB_xy:
             path_b_points.append(carB_xy)
 
+        # --- DRAWING ---
+        
         
         screen.blit(background_surface, (0, 0))
 
@@ -204,31 +256,41 @@ def main():
         if len(path_b_points) > 1:
             pygame.draw.lines(screen, COLOR_BLUE, False, path_b_points, 3)
 
+        active_events_list = step_data.get('active_events_list', []) 
+
+        for edge, event_type in active_events_list:
+            try:
+                u, v = edge
+                pos_u, pos_v = positions[u], positions[v]
+                
+                if event_type == "Traffic Jam":
+                    pygame.draw.line(screen, COLOR_JAM, pos_u, pos_v, 4)
+                elif event_type == "Blockage":
+                    pygame.draw.line(screen, COLOR_BLOCKAGE, pos_u, pos_v, 5)
+                elif event_type == "One-way":
+                    draw_dotted_line(screen, COLOR_ONEWAY, pos_u, pos_v, 10)
+            except Exception:
+                pass 
+
         carA_color = COLOR_RED_LIGHT if carA_in_transit else COLOR_RED
         draw_car(screen, carA_xy, carA_angle, carA_color)
-        
         if step_data['step'] >= DELAY_B:
             carB_color = COLOR_BLUE_LIGHT if carB_in_transit else COLOR_BLUE
             draw_car(screen, carB_xy, carB_angle, carB_color)
 
         step_text = ui_font.render(f"Step: {step_data['step']}", True, COLOR_BLACK)
         screen.blit(step_text, (10, 10))
-        
-        # Car A
         carA_status_str = "Car A: On Edge" if carA_in_transit else "Car A: At Node"
         carA_pos_str = f"Car A Pos: {carA_state['pos']}"
         carA_edge_str = "Car A Edge: ---"
         if carA_in_transit:
             carA_edge_str = f"Car A Edge: ({carA_state['edge_from']} -> {carA_state['edge_to']})"
-        
         carA_status_surface = status_font.render(carA_status_str, True, COLOR_BLACK)
         carA_pos_surface = status_font.render(carA_pos_str, True, COLOR_BLACK)
         carA_edge_surface = status_font.render(carA_edge_str, True, COLOR_BLACK)
         screen.blit(carA_status_surface, (10, 40))
         screen.blit(carA_pos_surface, (10, 60))
         screen.blit(carA_edge_surface, (10, 80))
-
-        # Car B
         carB_status_str = ""
         carB_pos_str = f"Car B Pos: {carB_state['pos']}"
         carB_edge_str = "Car B Edge: ---"
@@ -239,15 +301,12 @@ def main():
             carB_status_str = "Car B: On Edge" if carB_in_transit else "Car B: At Node"
             if carB_in_transit:
                 carB_edge_str = f"Car B Edge: ({carB_state['edge_from']} -> {carB_state['edge_to']})"
-
         carB_status_surface = status_font.render(carB_status_str, True, COLOR_BLACK)
         carB_pos_surface = status_font.render(carB_pos_str, True, COLOR_BLACK)
         carB_edge_surface = status_font.render(carB_edge_str, True, COLOR_BLACK)
         screen.blit(carB_status_surface, (10, 110))
         screen.blit(carB_pos_surface, (10, 130))
         screen.blit(carB_edge_surface, (10, 150))
-
-
         status_text = ""
         if step_data['caught']:
             status_text = "CAUGHT!"
@@ -257,9 +316,8 @@ def main():
             paused = True
         if paused and not (step_data['caught'] or step_data['reached']):
             status_text = "PAUSED (Space to resume, R to restart)"
-
         status_surface = ui_font.render(status_text, True, COLOR_RED if step_data['caught'] else COLOR_EXIT)
-        screen.blit(status_surface, (10, 180)) # Moved down
+        screen.blit(status_surface, (10, 180)) 
 
         pygame.display.flip()
         
