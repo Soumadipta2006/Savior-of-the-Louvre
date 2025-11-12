@@ -4,7 +4,7 @@ import networkx as nx
 import json
 import warnings
 
-# --- 1. `load_graph` FUNCTION ---
+
 def load_graph(filename="graph_with_metadata.json"):
     with open(filename, "r") as f:
         data = json.load(f)
@@ -20,7 +20,7 @@ def load_graph(filename="graph_with_metadata.json"):
             G_loaded.add_edge(node, nbr, weight=weight)
     return G_loaded, adjacency, positions, metadata, exit_nodes
 
-# --- 2. HELPER FUNCTION (for smooth movement) ---
+
 def get_car_xy(car_state, pos, graph):
     """
     Helper function to calculate the exact (x, y) coords of a car.
@@ -43,7 +43,7 @@ def get_car_xy(car_state, pos, graph):
     
     return pos[car_state['pos']]
 
-# --- 3. MAIN VISUALIZATION ---
+
 def main():
     # --- Load Data ---
     try:
@@ -61,12 +61,9 @@ def main():
     if history:
         DELAY_B = history[0]['carB'].get('delay', 3)
 
-    # --- THIS IS THE FIX ---
-    # Create a "Step 0" initial state, as the log starts *after* the first move.
-    
-    # Get the *first* path Car A has (from the first log entry)
+
     initial_path = history[0]['carA']['Dijkstra_path']
-    # Add the start node back to the front of the path for this frame
+   
     if initial_path and initial_path[0] != CAR_A_START_NODE:
         initial_path.insert(0, CAR_A_START_NODE)
 
@@ -85,7 +82,7 @@ def main():
         "Dijkstra_path": []
     }
     
-    # Create the manufactured first frame
+
     step_initial = {
         "step": 0, # We'll call this "Step 0"
         "carA": initial_carA_state,
@@ -95,16 +92,16 @@ def main():
         "log_events": []
     }
     
-    # Insert this new frame at the very beginning of the history list
+ 
     history.insert(0, step_initial)
     
-    # Re-number the "step" display for all subsequent frames
+
     for i, step_data in enumerate(history):
         if i > 0:
             step_data['step_display'] = step_data['step']
     history[0]['step_display'] = 0 # Our initial frame is also "step 0"
 
-    # --- Define the Basic Drawing Function (UPDATED) ---
+
     def draw_frame_basic(step_data):
         plt.clf() 
         
@@ -127,7 +124,6 @@ def main():
         nx.draw_networkx_nodes(G_loaded, {"A_pos": carA_xy}, nodelist=["A_pos"], node_size=200, node_color="red")
         
         # 5. Draw Car B
-        # Use the *original* step number for the delay logic
         if step_data['step'] >= DELAY_B or step_data['step'] == 0:
             carB_xy = get_car_xy(carB_state, positions, G_loaded)
             nx.draw_networkx_nodes(G_loaded, {"B_pos": carB_xy}, nodelist=["B_pos"], node_size=200, node_color="blue")
@@ -135,7 +131,7 @@ def main():
         plt.title(f"Louvre Chase - Step: {step_display}")
         plt.axis('off')
 
-    # --- Set up the Animation ---
+
     fig, ax = plt.subplots(figsize=(10, 10))
 
     def animate_basic(i):
@@ -149,7 +145,7 @@ def main():
         repeat=False
     )
 
-    # --- Save the Animation as an HTML File ---
+
     print("Saving basic_animation.html... This might take a moment.")
     try:
         html_output = ani.to_jshtml()
@@ -164,6 +160,6 @@ def main():
 
     plt.close()
     
-# --- Run the program ---
+
 if __name__ == "__main__":
     main()
