@@ -1,6 +1,6 @@
 [
     {
-        "step": 0,
+        "step": 1,
         "carA": {
             "pos": 0,
             "edge_from": 0,
@@ -26,7 +26,7 @@
         "log_events": []
     },
     {
-        "step": 1,
+        "step": 2,
         "carA": {
             "pos": 0,
             "edge_from": 0,
@@ -49,12 +49,10 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": [
-            "Blockage on 12-->24"
-        ]
+        "log_events": []
     },
     {
-        "step": 2,
+        "step": 3,
         "carA": {
             "pos": 0,
             "edge_from": 0,
@@ -80,7 +78,7 @@
         "log_events": []
     },
     {
-        "step": 3,
+        "step": 4,
         "carA": {
             "pos": 1,
             "edge_from": null,
@@ -109,7 +107,7 @@
         "log_events": []
     },
     {
-        "step": 4,
+        "step": 5,
         "carA": {
             "pos": 1,
             "edge_from": 1,
@@ -135,13 +133,10 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": [
-            "Blockage on 9-->3",
-            "Blockage removed on 12-->24"
-        ]
+        "log_events": []
     },
     {
-        "step": 5,
+        "step": 6,
         "carA": {
             "pos": 1,
             "edge_from": 1,
@@ -170,7 +165,7 @@
         "log_events": []
     },
     {
-        "step": 6,
+        "step": 7,
         "carA": {
             "pos": 40,
             "edge_from": null,
@@ -198,7 +193,7 @@
         "log_events": []
     },
     {
-        "step": 7,
+        "step": 8,
         "carA": {
             "pos": 40,
             "edge_from": 40,
@@ -222,12 +217,10 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": [
-            "Blockage removed on 9-->3"
-        ]
+        "log_events": []
     },
     {
-        "step": 8,
+        "step": 9,
         "carA": {
             "pos": 40,
             "edge_from": 40,
@@ -256,7 +249,7 @@
         "log_events": []
     },
     {
-        "step": 9,
+        "step": 10,
         "carA": {
             "pos": 40,
             "edge_from": 40,
@@ -285,7 +278,7 @@
         "log_events": []
     },
     {
-        "step": 10,
+        "step": 11,
         "carA": {
             "pos": 38,
             "edge_from": null,
@@ -310,12 +303,10 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": [
-            "One-way created. Removed edge 12-->18"
-        ]
+        "log_events": []
     },
     {
-        "step": 11,
+        "step": 12,
         "carA": {
             "pos": 38,
             "edge_from": 38,
@@ -342,7 +333,7 @@
         "log_events": []
     },
     {
-        "step": 12,
+        "step": 13,
         "carA": {
             "pos": 48,
             "edge_from": null,
@@ -363,6 +354,8 @@
         },
         "caught": true,
         "reached": true,
-        "log_events": []
+        "log_events": [
+            "One-way created. Removed edge 27-->26"
+        ]
     }
 ]
