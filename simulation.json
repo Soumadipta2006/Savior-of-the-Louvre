@@ -23,7 +23,8 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": []
     },
     {
         "step": 2,
@@ -49,7 +50,8 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": []
     },
     {
         "step": 3,
@@ -75,7 +77,8 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": []
     },
     {
         "step": 4,
@@ -104,7 +107,8 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": []
     },
     {
         "step": 5,
@@ -133,7 +137,8 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": []
     },
     {
         "step": 6,
@@ -162,7 +167,20 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [
+            "Traffic jam on 29-->5"
+        ],
+        "active_events": [
+            {
+                "type": "Traffic Jam",
+                "edge": [
+                    29,
+                    5
+                ],
+                "duration": 3,
+                "original_weight": 1.2978187542947137
+            }
+        ]
     },
     {
         "step": 7,
@@ -190,7 +208,29 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [
+            "Traffic jam on 37-->33"
+        ],
+        "active_events": [
+            {
+                "type": "Traffic Jam",
+                "edge": [
+                    29,
+                    5
+                ],
+                "duration": 2,
+                "original_weight": 1.2978187542947137
+            },
+            {
+                "type": "Traffic Jam",
+                "edge": [
+                    37,
+                    33
+                ],
+                "duration": 3,
+                "original_weight": 4.37475401031615
+            }
+        ]
     },
     {
         "step": 8,
@@ -217,7 +257,41 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [
+            "Blockage on 25-->0"
+        ],
+        "active_events": [
+            {
+                "type": "Traffic Jam",
+                "edge": [
+                    29,
+                    5
+                ],
+                "duration": 1,
+                "original_weight": 1.2978187542947137
+            },
+            {
+                "type": "Traffic Jam",
+                "edge": [
+                    37,
+                    33
+                ],
+                "duration": 2,
+                "original_weight": 4.37475401031615
+            },
+            {
+                "type": "Blockage",
+                "edge": [
+                    25,
+                    0
+                ],
+                "duration": 4,
+                "removed_edge_data": [
+                    0,
+                    4.967232312060698
+                ]
+            }
+        ]
     },
     {
         "step": 9,
@@ -246,7 +320,30 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": [
+            {
+                "type": "Traffic Jam",
+                "edge": [
+                    37,
+                    33
+                ],
+                "duration": 1,
+                "original_weight": 4.37475401031615
+            },
+            {
+                "type": "Blockage",
+                "edge": [
+                    25,
+                    0
+                ],
+                "duration": 3,
+                "removed_edge_data": [
+                    0,
+                    4.967232312060698
+                ]
+            }
+        ]
     },
     {
         "step": 10,
@@ -275,7 +372,21 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": [
+            {
+                "type": "Blockage",
+                "edge": [
+                    25,
+                    0
+                ],
+                "duration": 2,
+                "removed_edge_data": [
+                    0,
+                    4.967232312060698
+                ]
+            }
+        ]
     },
     {
         "step": 11,
@@ -303,7 +414,23 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [
+            "Blockage removed on 25-->0"
+        ],
+        "active_events": [
+            {
+                "type": "Blockage",
+                "edge": [
+                    25,
+                    0
+                ],
+                "duration": 1,
+                "removed_edge_data": [
+                    0,
+                    4.967232312060698
+                ]
+            }
+        ]
     },
     {
         "step": 12,
@@ -330,7 +457,8 @@
         },
         "caught": false,
         "reached": false,
-        "log_events": []
+        "new_events": [],
+        "active_events": []
     },
     {
         "step": 13,
@@ -354,8 +482,7 @@
         },
         "caught": true,
         "reached": true,
-        "log_events": [
-            "One-way created. Removed edge 27-->26"
-        ]
+        "new_events": [],
+        "active_events": []
     }
 ]
